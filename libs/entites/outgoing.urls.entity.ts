@@ -1,5 +1,5 @@
 import { LinkBaseModel} from "../interfaces";
-import {Column, Entity, ManyToOne} from "typeorm";
+import {Column, Entity, Index, ManyToOne} from "typeorm";
 import {BaseResourceEntity} from "./base.resource.entity";
 import {CrawlerRequestEntity} from "./crawler.request.entity";
 

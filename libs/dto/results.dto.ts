@@ -6,12 +6,12 @@ export class ResultsDto implements BaseModel
   createdAt: Date;
   id: string;
   updatedAt: Date;
-  links: LinkBaseModel[];
-  outgoingUrls: LinkBaseModel[];
-  screenshot: ScreenshotsModel;
-  scripts: LinkBaseModel[];
+  links: { crawlerRequest: { id: any; }; }[]
+  outgoingUrls:{ crawlerRequest: { id: any; }; }[]
+  screenshots: { crawlerRequest: { id: any; }; }[];
+  scripts: { crawlerRequest: { id: any; }; }[];
   status: CrawlerRequestStatusEnum;
-  stylesheets: LinkBaseModel[];
+  stylesheets: { crawlerRequest: { id: any; }; }[];
   url: string;
 
 }
