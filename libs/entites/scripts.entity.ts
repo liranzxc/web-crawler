@@ -1,17 +1,14 @@
-import {ScreenshotsModel, ScriptBaseModel} from "../interfaces";
+import {LinkBaseModel} from "../interfaces";
 import {BaseResourceEntity} from "./base.resource.entity";
 import {Column, Entity, ManyToOne} from "typeorm";
 import {CrawlerRequestEntity} from "./crawler.request.entity";
 
 
 @Entity("Scripts")
-export class ScriptsEntity extends BaseResourceEntity implements ScriptBaseModel
+export class ScriptsEntity extends BaseResourceEntity implements LinkBaseModel
 {
   @Column({type :"text"})
-  name: string;
-
-  @Column({type :"text"})
-  content: string;
+  href: string;
 
   @ManyToOne(type => CrawlerRequestEntity, crawlerRequest => crawlerRequest.scripts)
   crawlerRequest: CrawlerRequestEntity

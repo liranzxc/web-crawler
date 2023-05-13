@@ -1,4 +1,4 @@
-import {BaseModel, LinkBaseModel, ScreenshotsModel, ScriptBaseModel} from "../interfaces";
+import {BaseModel, LinkBaseModel, ScreenshotsModel} from "../interfaces";
 import {CrawlerRequestStatusEnum} from "../enums";
 
 export class ResultsDto implements BaseModel
@@ -9,9 +9,9 @@ export class ResultsDto implements BaseModel
   links: LinkBaseModel[];
   outgoingUrls: LinkBaseModel[];
   screenshot: ScreenshotsModel;
-  scripts: ScriptBaseModel[];
+  scripts: LinkBaseModel[];
   status: CrawlerRequestStatusEnum;
-  stylesheets: ScriptBaseModel[];
+  stylesheets: LinkBaseModel[];
   url: string;
 
 }
