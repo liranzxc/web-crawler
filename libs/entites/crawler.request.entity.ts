@@ -18,6 +18,9 @@ export class CrawlerRequestEntity extends BaseResourceEntity implements CrawlerR
   @Column({ type : 'text'})
   status:CrawlerRequestStatusEnum
 
+  @Column({ type : 'text',nullable:true})
+  error?: string;
+
   @OneToOne(type => ScreenshotsEntity, screenshot => screenshot.crawlerRequest)
   screenshot: ScreenshotsEntity;
 
