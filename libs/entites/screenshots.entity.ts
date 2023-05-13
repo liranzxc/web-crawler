@@ -1,6 +1,6 @@
 import { ScreenshotsModel} from "../interfaces";
 import {BaseResourceEntity} from "./base.resource.entity";
-import {Column, Entity, OneToMany, OneToOne} from "typeorm";
+import {Column, Entity, JoinColumn, OneToMany, OneToOne} from "typeorm";
 import {CrawlerRequestEntity} from "./crawler.request.entity";
 
 
@@ -10,6 +10,7 @@ export class ScreenshotsEntity extends BaseResourceEntity implements Screenshots
   @Column({type :"text"})
   relativePath: string;
 
+  @JoinColumn()
   @OneToOne(type => CrawlerRequestEntity, crawlerRequest => crawlerRequest.screenshot)
   crawlerRequest: CrawlerRequestEntity
 }
