@@ -18,9 +18,7 @@ export class WorkerService
   private SAVE_DIR: string = process.env.SAVE_DIR ?? "/tmp";
   constructor(
     @InjectEntityManager()  private em : EntityManager,
-  ) {
-
-  }
+  ) {}
 
   isURL(value: string) {
       return typeof value === 'string' && isUrlValidator(value);
@@ -48,13 +46,13 @@ export class WorkerService
       waitUntil: 'load',
     });
 
+    // get assets
+
     // save screenshot
     await page.screenshot({path: `${relativePathScreenshot}`, fullPage: true});
     console.log("Saving image on " ,relativePathScreenshot);
 
-    // getting href
     let outgoingLinks :string[]= await page.$$eval('a', outgoingLink => outgoingLink.filter(a => a?.href).map(a => a.href));
-
     // validation on the urls
     outgoingLinks = outgoingLinks.filter(a => this.isURL(a))
 
@@ -62,6 +60,7 @@ export class WorkerService
     const stylesheets :string[]= await page.$$eval('link', links => links.filter(a => a.rel === 'stylesheet' && a?.href).map(a => a.href));
     const scripts :string[]= await page.$$eval('script', script => script.filter(script => script?.src).map(script =>  script.src));
 
+    // close
     await page.close()
     await browser.close();
 
