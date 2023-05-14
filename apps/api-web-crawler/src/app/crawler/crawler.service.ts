@@ -1,0 +1,97 @@
+import {BadRequestException, Injectable, NotFoundException} from "@nestjs/common";
+import {InjectQueue} from "@nestjs/bull";
+import {Queue} from "bull";
+import {
+  ScanRequestEntity,
+  LinksEntity,
+  OutgoingUrlsEntity,
+  ScreenshotsEntity, ScriptsEntity,
+  StylesheetsEntity
+} from "../../../../../libs/entites";
+import {EntityManager, Repository} from "typeorm";
+import {InjectEntityManager, InjectRepository} from "@nestjs/typeorm";
+import {CrawlerRequestStatusEnum} from "../../../../../libs/enums";
+import {RequestScanDto} from "../../../../../libs/dto/request.scan.dto";
+import {ScanResultsDto} from "../../../../../libs/dto/scan.results.dto";
+
+@Injectable()
+export class CrawlerService {
+
+  constructor(@InjectRepository(ScanRequestEntity) private crawlerRequestEntityRepository: Repository<ScanRequestEntity>,
+              @InjectEntityManager()  private em : EntityManager,
+              @InjectQueue(process.env.QUEUE_NAME) private crawlingRequestQueue: Queue) {
+  }
+
+  /***
+   * create a request for crawling an url
+   * we save a request on database and add it to the queue to processing
+   * @param requestScanDto
+   */
+  async createRequest(requestScanDto: RequestScanDto) {
+    if (requestScanDto?.url) {
+      const scanRequestEntity = await this.crawlerRequestEntityRepository.save({
+        url: requestScanDto.url,
+        status: CrawlerRequestStatusEnum.QUEUED
+      })
+
+      await this.crawlingRequestQueue.add({url: requestScanDto.url, id: scanRequestEntity.id})
+      return {id: scanRequestEntity.id}
+    } else {
+      throw new BadRequestException("invalid url")
+    }
+  }
+
+
+  /**
+   * getting information about the scan by id
+   * @param scanId
+   */
+  async getScanInformationById(scanId: string) {
+
+    const crawlerRequestEntity = await this.crawlerRequestEntityRepository.findOne(
+      {where: {id: scanId}})
+
+    if (crawlerRequestEntity) {
+
+      const outgoingUrls = await this.em.find(OutgoingUrlsEntity, { where : { crawlerRequest :  { id : scanId }}});
+      const links = await this.em.find(LinksEntity, { where : { crawlerRequest :  { id : scanId }}});
+      const screenshots = await this.em.find(ScreenshotsEntity, { where : { crawlerRequest :  { id : scanId }}});
+      const stylesheets = await this.em.find(StylesheetsEntity, { where : { crawlerRequest :  { id : scanId }}});
+      const scripts = await this.em.find(ScriptsEntity, { where : { crawlerRequest :  { id : scanId }}});
+
+      //making sure the dto is defined structure
+      const resultsDto: ScanResultsDto = {
+        status: crawlerRequestEntity.status,
+        id: crawlerRequestEntity.id,
+        url: crawlerRequestEntity.url,
+        outgoingUrls: outgoingUrls,
+        links: links,
+        createdAt: crawlerRequestEntity.createdAt,
+        screenshots: screenshots,
+        scripts: scripts,
+        stylesheets: stylesheets,
+        updatedAt: crawlerRequestEntity.updatedAt
+      }
+      return resultsDto;
+    } else {
+      throw new NotFoundException()
+    }
+
+  }
+
+  /**
+   * get all scans information
+   */
+  async getAllScans() {
+    const crawlerRequestEntities:ScanRequestEntity[] = await this.crawlerRequestEntityRepository.find()
+    const dtoResults = [];
+    for await(let result of crawlerRequestEntities)
+    {
+      const resultsDto = await this.getScanInformationById(result.id);
+      dtoResults.push(resultsDto)
+    }
+
+    return dtoResults;
+  }
+}
+

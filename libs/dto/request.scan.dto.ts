@@ -1,6 +1,6 @@
 import {IsUrl} from "class-validator";
 
-export class RequestDto
+export class RequestScanDto
 {
   @IsUrl()
   url:string;

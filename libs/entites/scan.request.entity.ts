@@ -1,5 +1,5 @@
 import {CrawlerRequestStatusEnum} from "../enums/crawler.request.status.enum";
-import {CrawlerRequestModel} from "../interfaces";
+import {ScanRequestModel} from "../interfaces";
 import {BaseResourceEntity} from "./base.resource.entity";
 import {Column, Entity, OneToMany, OneToOne} from "typeorm";
 import {ScreenshotsEntity} from "./screenshots.entity";
@@ -9,8 +9,8 @@ import {StylesheetsEntity} from "./stylesheets.entity";
 import {OutgoingUrlsEntity} from "./outgoing.urls.entity";
 
 
-@Entity("CrawlerRequest")
-export class CrawlerRequestEntity extends BaseResourceEntity implements CrawlerRequestModel
+@Entity("ScanRequest")
+export class ScanRequestEntity extends BaseResourceEntity implements ScanRequestModel
 {
   @Column({ type : 'text'})
   url:string;

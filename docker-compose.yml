@@ -16,7 +16,6 @@ services:
       - redis-data:/data
     ports:
       - "6379:6379"
-
   api-web-crawler:
     build:
       context: .
@@ -33,7 +32,6 @@ services:
 
     ports:
       - "3000:3000"
-
   crawler-worker:
     build:
       context: .
@@ -47,6 +45,7 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       QUEUE_NAME: ${QUEUE_NAME}
+    platform: linux/amd64
     ports:
       - "3001:3001"
 

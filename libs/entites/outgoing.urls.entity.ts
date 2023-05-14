@@ -1,7 +1,7 @@
 import { LinkBaseModel} from "../interfaces";
 import {Column, Entity, Index, ManyToOne} from "typeorm";
 import {BaseResourceEntity} from "./base.resource.entity";
-import {CrawlerRequestEntity} from "./crawler.request.entity";
+import {ScanRequestEntity} from "./scan.request.entity";
 
 @Entity('OutgoingUrls')
 export class OutgoingUrlsEntity extends BaseResourceEntity implements LinkBaseModel
@@ -9,6 +9,6 @@ export class OutgoingUrlsEntity extends BaseResourceEntity implements LinkBaseMo
   @Column({type :"text"})
   href: string;
 
-  @ManyToOne(type => CrawlerRequestEntity, crawlerRequest => crawlerRequest.outgoingUrls)
-  crawlerRequest: CrawlerRequestEntity
+  @ManyToOne(type => ScanRequestEntity, crawlerRequest => crawlerRequest.outgoingUrls)
+  crawlerRequest: ScanRequestEntity
 }

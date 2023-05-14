@@ -1,7 +1,7 @@
 import {LinkBaseModel} from "../interfaces";
 import {BaseResourceEntity} from "./base.resource.entity";
 import {Column, Entity, ManyToOne} from "typeorm";
-import {CrawlerRequestEntity} from "./crawler.request.entity";
+import {ScanRequestEntity} from "./scan.request.entity";
 
 
 @Entity("Stylesheets")
@@ -10,6 +10,6 @@ export class StylesheetsEntity extends BaseResourceEntity implements LinkBaseMod
   @Column({type :"text"})
   href: string;
 
-  @ManyToOne(type => CrawlerRequestEntity, crawlerRequest => crawlerRequest.stylesheets)
-  crawlerRequest: CrawlerRequestEntity
+  @ManyToOne(type => ScanRequestEntity, crawlerRequest => crawlerRequest.stylesheets)
+  crawlerRequest: ScanRequestEntity
 }

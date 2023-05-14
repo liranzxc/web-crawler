@@ -3,7 +3,7 @@ import {CrawlerRequestStatusEnum} from "../enums";
 
 
 
-export interface CrawlerRequestModel extends BaseModel
+export interface ScanRequestModel extends BaseModel
 {
     url:string;
     status:CrawlerRequestStatusEnum
