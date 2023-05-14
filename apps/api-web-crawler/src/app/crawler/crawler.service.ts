@@ -10,8 +10,8 @@ import {
 } from "../../../../../libs/entites";
 import {EntityManager, Repository} from "typeorm";
 import {InjectEntityManager, InjectRepository} from "@nestjs/typeorm";
-import {CrawlerRequestStatusEnum} from "../../../../../libs/enums";
-import {RequestScanDto} from "../../../../../libs/dto/request.scan.dto";
+import {ScanRequestStatusEnum} from "../../../../../libs/enums";
+import {ScanRequestDto} from "../../../../../libs/dto/scan.request.dto";
 import {ScanResultsDto} from "../../../../../libs/dto/scan.results.dto";
 
 @Injectable()
@@ -27,11 +27,11 @@ export class CrawlerService {
    * we save a request on database and add it to the queue to processing
    * @param requestScanDto
    */
-  async createRequest(requestScanDto: RequestScanDto) {
+  async createRequest(requestScanDto: ScanRequestDto) {
     if (requestScanDto?.url) {
       const scanRequestEntity = await this.crawlerRequestEntityRepository.save({
         url: requestScanDto.url,
-        status: CrawlerRequestStatusEnum.QUEUED
+        status: ScanRequestStatusEnum.QUEUED
       })
 
       await this.crawlingRequestQueue.add({url: requestScanDto.url, id: scanRequestEntity.id})

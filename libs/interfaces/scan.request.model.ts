@@ -1,11 +1,11 @@
 import {BaseModel} from "./base.model";
-import {CrawlerRequestStatusEnum} from "../enums";
+import {ScanRequestStatusEnum} from "../enums";
 
 
 
 export interface ScanRequestModel extends BaseModel
 {
     url:string;
-    status:CrawlerRequestStatusEnum
+    status:ScanRequestStatusEnum
     error?: string;
 }

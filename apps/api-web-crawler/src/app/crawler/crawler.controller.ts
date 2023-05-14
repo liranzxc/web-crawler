@@ -1,6 +1,6 @@
 import {Body, Controller, Get, Param, Post} from "@nestjs/common";
 import {CrawlerService} from "./crawler.service";
-import {RequestScanDto} from "../../../../../libs/dto/request.scan.dto";
+import {ScanRequestDto} from "../../../../../libs/dto/scan.request.dto";
 import {ScanResultsDto} from "../../../../../libs/dto/scan.results.dto";
 import {ApiOkResponse} from "@nestjs/swagger";
 
@@ -11,7 +11,7 @@ export class CrawlerController {
 
 
   @Post('/crawl')
-  async createCrawlRequest(@Body() requestDto : RequestScanDto)
+  async createCrawlRequest(@Body() requestDto : ScanRequestDto)
   {
     return this.crawlerService.createRequest(requestDto);
   }

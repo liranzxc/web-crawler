@@ -1,5 +1,5 @@
 import {BaseModel, LinkBaseModel, ScreenshotsModel} from "../interfaces";
-import {CrawlerRequestStatusEnum} from "../enums";
+import {ScanRequestStatusEnum} from "../enums";
 import {LinksEntity, OutgoingUrlsEntity, ScreenshotsEntity, ScriptsEntity, StylesheetsEntity} from "../entites";
 import {ApiProperty} from "@nestjs/swagger";
 
@@ -26,8 +26,8 @@ export class ScanResultsDto implements BaseModel
   @ApiProperty( { type : [ScriptsEntity],description: 'scripts' })
   scripts: ScriptsEntity[];
 
-  @ApiProperty({ enum: [CrawlerRequestStatusEnum.SUCCESS, CrawlerRequestStatusEnum.FAIL, CrawlerRequestStatusEnum.QUEUED]})
-  status: CrawlerRequestStatusEnum;
+  @ApiProperty({ enum: [ScanRequestStatusEnum.SUCCESS, ScanRequestStatusEnum.FAIL, ScanRequestStatusEnum.QUEUED]})
+  status: ScanRequestStatusEnum;
 
   @ApiProperty( { type : [StylesheetsEntity],description: 'stylesheets' })
   stylesheets: StylesheetsEntity[];

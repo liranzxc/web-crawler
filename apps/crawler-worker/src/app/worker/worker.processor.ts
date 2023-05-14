@@ -3,7 +3,7 @@ import {Job, Queue} from 'bull';
 import {InjectRepository} from "@nestjs/typeorm";
 import {ScanRequestEntity} from "../../../../../libs/entites";
 import {Repository} from "typeorm";
-import {CrawlerRequestStatusEnum} from "../../../../../libs/enums";
+import {ScanRequestStatusEnum} from "../../../../../libs/enums";
 import {WorkerService} from "./worker.service";
 
 @Processor(process.env.QUEUE_NAME)
@@ -38,7 +38,7 @@ export class CrawlerWorkerConsumer {
     const scanRequestId = job.data.id;
 
     await this.crawlerRequestEntityRepository.update( {id : scanRequestId },
-      { status : CrawlerRequestStatusEnum.SUCCESS})
+      { status : ScanRequestStatusEnum.SUCCESS})
 
   }
 
@@ -49,6 +49,6 @@ export class CrawlerWorkerConsumer {
     const scanRequestId = job.data.id;
 
     await this.crawlerRequestEntityRepository.update( {id : scanRequestId },
-      { status : CrawlerRequestStatusEnum.FAIL , error : error.message})
+      { status : ScanRequestStatusEnum.FAIL , error : error.message})
   }
 }

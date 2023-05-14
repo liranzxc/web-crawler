@@ -1,4 +1,4 @@
-import {CrawlerRequestStatusEnum} from "../enums/crawler.request.status.enum";
+import {ScanRequestStatusEnum} from "../enums/scan.request.status.enum";
 import {ScanRequestModel} from "../interfaces";
 import {BaseResourceEntity} from "./base.resource.entity";
 import {Column, Entity, OneToMany, OneToOne} from "typeorm";
@@ -16,7 +16,7 @@ export class ScanRequestEntity extends BaseResourceEntity implements ScanRequest
   url:string;
 
   @Column({ type : 'text'})
-  status:CrawlerRequestStatusEnum
+  status:ScanRequestStatusEnum
 
   @Column({ type : 'text',nullable:true})
   error?: string;
