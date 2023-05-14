@@ -2,10 +2,12 @@ import { LinkBaseModel} from "../interfaces";
 import {Column, Entity, Index, ManyToOne} from "typeorm";
 import {BaseResourceEntity} from "./base.resource.entity";
 import {ScanRequestEntity} from "./scan.request.entity";
+import {ApiProperty} from "@nestjs/swagger";
 
 @Entity('OutgoingUrls')
 export class OutgoingUrlsEntity extends BaseResourceEntity implements LinkBaseModel
 {
+  @ApiProperty( { type : 'string',description: 'link' })
   @Column({type :"text"})
   href: string;
 
