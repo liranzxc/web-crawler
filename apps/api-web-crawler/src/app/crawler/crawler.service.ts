@@ -13,6 +13,7 @@ import {InjectEntityManager, InjectRepository} from "@nestjs/typeorm";
 import {ScanRequestStatusEnum} from "../../../../../libs/enums";
 import {ScanRequestDto} from "../../../../../libs/dto/scan.request.dto";
 import {ScanResultsDto} from "../../../../../libs/dto/scan.results.dto";
+import {isUUID} from "class-validator";
 
 @Injectable()
 export class CrawlerService {
@@ -48,34 +49,42 @@ export class CrawlerService {
    */
   async getScanInformationById(scanId: string) {
 
-    const crawlerRequestEntity = await this.crawlerRequestEntityRepository.findOne(
-      {where: {id: scanId}})
+    if(isUUID(scanId))
+    {
+      const crawlerRequestEntity = await this.crawlerRequestEntityRepository.findOne(
+        {where: {id: scanId}})
 
-    if (crawlerRequestEntity) {
+      if (crawlerRequestEntity) {
 
-      const outgoingUrls = await this.em.find(OutgoingUrlsEntity, { where : { scanRequest :  { id : scanId }}});
-      const links = await this.em.find(LinksEntity, { where : { scanRequest :  { id : scanId }}});
-      const screenshots = await this.em.find(ScreenshotsEntity, { where : { scanRequest :  { id : scanId }}});
-      const stylesheets = await this.em.find(StylesheetsEntity, { where : { scanRequest :  { id : scanId }}});
-      const scripts = await this.em.find(ScriptsEntity, { where : { scanRequest :  { id : scanId }}});
+        const outgoingUrls = await this.em.find(OutgoingUrlsEntity, { where : { scanRequest :  { id : scanId }}});
+        const links = await this.em.find(LinksEntity, { where : { scanRequest :  { id : scanId }}});
+        const screenshots = await this.em.find(ScreenshotsEntity, { where : { scanRequest :  { id : scanId }}});
+        const stylesheets = await this.em.find(StylesheetsEntity, { where : { scanRequest :  { id : scanId }}});
+        const scripts = await this.em.find(ScriptsEntity, { where : { scanRequest :  { id : scanId }}});
 
-      //making sure the dto is defined structure
-      const resultsDto: ScanResultsDto = {
-        status: crawlerRequestEntity.status,
-        id: crawlerRequestEntity.id,
-        url: crawlerRequestEntity.url,
-        createdAt: crawlerRequestEntity.createdAt,
-        updatedAt: crawlerRequestEntity.updatedAt,
-        outgoingUrls: outgoingUrls,
-        links: links,
-        screenshots: screenshots,
-        scripts: scripts,
-        stylesheets: stylesheets,
+        //making sure the dto is defined structure
+        const resultsDto: ScanResultsDto = {
+          status: crawlerRequestEntity.status,
+          id: crawlerRequestEntity.id,
+          url: crawlerRequestEntity.url,
+          createdAt: crawlerRequestEntity.createdAt,
+          updatedAt: crawlerRequestEntity.updatedAt,
+          outgoingUrls: outgoingUrls,
+          links: links,
+          screenshots: screenshots,
+          scripts: scripts,
+          stylesheets: stylesheets,
+        }
+        return resultsDto;
+      } else {
+        throw new NotFoundException()
       }
-      return resultsDto;
-    } else {
-      throw new NotFoundException()
     }
+    else
+    {
+      throw new BadRequestException("invalid uuid")
+    }
+
 
   }
 

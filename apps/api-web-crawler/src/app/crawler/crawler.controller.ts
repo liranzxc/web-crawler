@@ -16,7 +16,7 @@ export class CrawlerController {
     return this.crawlerService.createRequest(requestDto);
   }
 
-  @Get()
+  @Get("/health")
   async health()
   {
     return { health : 200 }
