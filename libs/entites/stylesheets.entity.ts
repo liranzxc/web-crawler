@@ -11,5 +11,5 @@ export class StylesheetsEntity extends BaseResourceEntity implements LinkBaseMod
   href: string;
 
   @ManyToOne(type => ScanRequestEntity, crawlerRequest => crawlerRequest.stylesheets)
-  crawlerRequest: ScanRequestEntity
+  scanRequest: ScanRequestEntity
 }

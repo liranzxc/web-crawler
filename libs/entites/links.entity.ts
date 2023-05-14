@@ -10,5 +10,5 @@ export class LinksEntity extends BaseResourceEntity implements LinkBaseModel
   href: string;
 
   @ManyToOne(type => ScanRequestEntity, crawlerRequest => crawlerRequest.links)
-  crawlerRequest: ScanRequestEntity
+  scanRequest: ScanRequestEntity
 }

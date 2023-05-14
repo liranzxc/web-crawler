@@ -10,5 +10,5 @@ export class OutgoingUrlsEntity extends BaseResourceEntity implements LinkBaseMo
   href: string;
 
   @ManyToOne(type => ScanRequestEntity, crawlerRequest => crawlerRequest.outgoingUrls)
-  crawlerRequest: ScanRequestEntity
+  scanRequest: ScanRequestEntity
 }

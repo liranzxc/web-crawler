@@ -73,32 +73,32 @@ export class WorkerService
     const linksEntities : LinksEntity[] =  results.links.map( (link) => {
       return {
         href : link,
-        crawlerRequest : { id : jobId}
+        scanRequest : { id : jobId}
       } as LinksEntity
     })
 
     const outgoingLinksEntities : OutgoingUrlsEntity[] =  results.outgoingLinks.map( (outgoingLink) => {
       return {
         href : outgoingLink,
-        crawlerRequest : { id : jobId}
+        scanRequest : { id : jobId}
       } as OutgoingUrlsEntity
     })
 
     const stylesheetsEntities : StylesheetsEntity[] =  results.stylesheets.map( (stylesheet) => {
       return {
         href : stylesheet,
-        crawlerRequest : { id : jobId}
+        scanRequest : { id : jobId}
       } as StylesheetsEntity
     })
 
     const scriptsEntities : ScriptsEntity[] =  results.scripts.map( (script) => {
       return {
         href : script,
-        crawlerRequest : { id : jobId}
+        scanRequest : { id : jobId}
       } as ScriptsEntity
     })
 
-    const screenshotEntity :ScreenshotsEntity = { crawlerRequest : { id : jobId} , relativePath : results.relativePathScreenshot} as ScreenshotsEntity
+    const screenshotEntity :ScreenshotsEntity = { scanRequest : { id : jobId} , relativePath : results.relativePathScreenshot} as ScreenshotsEntity
 
     const queryRunner = this.em.connection.createQueryRunner();
 

@@ -21,18 +21,18 @@ export class ScanRequestEntity extends BaseResourceEntity implements ScanRequest
   @Column({ type : 'text',nullable:true})
   error?: string;
 
-  @OneToOne(type => ScreenshotsEntity, screenshot => screenshot.crawlerRequest)
+  @OneToOne(type => ScreenshotsEntity, screenshot => screenshot.scanRequest)
   screenshot: ScreenshotsEntity;
 
-  @OneToMany(type => LinksEntity, link => link.crawlerRequest)
+  @OneToMany(type => LinksEntity, link => link.scanRequest)
   links: LinksEntity[];
 
-  @OneToMany(type => OutgoingUrlsEntity, outgoingUrl => outgoingUrl.crawlerRequest)
+  @OneToMany(type => OutgoingUrlsEntity, outgoingUrl => outgoingUrl.scanRequest)
   outgoingUrls: OutgoingUrlsEntity[];
 
-  @OneToMany(type => ScriptsEntity, script => script.crawlerRequest)
+  @OneToMany(type => ScriptsEntity, script => script.scanRequest)
   scripts: ScriptsEntity[];
 
-  @OneToMany(type => StylesheetsEntity, stylesheet => stylesheet.crawlerRequest)
+  @OneToMany(type => StylesheetsEntity, stylesheet => stylesheet.scanRequest)
   stylesheets: StylesheetsEntity[];
 }

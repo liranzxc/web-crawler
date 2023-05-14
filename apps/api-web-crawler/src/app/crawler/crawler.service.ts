@@ -53,24 +53,24 @@ export class CrawlerService {
 
     if (crawlerRequestEntity) {
 
-      const outgoingUrls = await this.em.find(OutgoingUrlsEntity, { where : { crawlerRequest :  { id : scanId }}});
-      const links = await this.em.find(LinksEntity, { where : { crawlerRequest :  { id : scanId }}});
-      const screenshots = await this.em.find(ScreenshotsEntity, { where : { crawlerRequest :  { id : scanId }}});
-      const stylesheets = await this.em.find(StylesheetsEntity, { where : { crawlerRequest :  { id : scanId }}});
-      const scripts = await this.em.find(ScriptsEntity, { where : { crawlerRequest :  { id : scanId }}});
+      const outgoingUrls = await this.em.find(OutgoingUrlsEntity, { where : { scanRequest :  { id : scanId }}});
+      const links = await this.em.find(LinksEntity, { where : { scanRequest :  { id : scanId }}});
+      const screenshots = await this.em.find(ScreenshotsEntity, { where : { scanRequest :  { id : scanId }}});
+      const stylesheets = await this.em.find(StylesheetsEntity, { where : { scanRequest :  { id : scanId }}});
+      const scripts = await this.em.find(ScriptsEntity, { where : { scanRequest :  { id : scanId }}});
 
       //making sure the dto is defined structure
       const resultsDto: ScanResultsDto = {
         status: crawlerRequestEntity.status,
         id: crawlerRequestEntity.id,
         url: crawlerRequestEntity.url,
+        createdAt: crawlerRequestEntity.createdAt,
+        updatedAt: crawlerRequestEntity.updatedAt,
         outgoingUrls: outgoingUrls,
         links: links,
-        createdAt: crawlerRequestEntity.createdAt,
         screenshots: screenshots,
         scripts: scripts,
         stylesheets: stylesheets,
-        updatedAt: crawlerRequestEntity.updatedAt
       }
       return resultsDto;
     } else {
