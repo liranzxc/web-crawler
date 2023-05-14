@@ -11,8 +11,8 @@ import {
 import {EntityManager, Repository} from "typeorm";
 import {InjectEntityManager, InjectRepository} from "@nestjs/typeorm";
 import {ScanRequestStatusEnum} from "../../../../../libs/enums";
-import {ScanRequestDto} from "../../../../../libs/dto/scan.request.dto";
-import {ScanResultsDto} from "../../../../../libs/dto/scan.results.dto";
+import {ScanRequestDto} from "../../../../../libs/dto";
+import {ScanResultsDto} from "../../../../../libs/dto";
 import {isUUID} from "class-validator";
 
 @Injectable()
