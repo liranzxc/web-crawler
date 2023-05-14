@@ -22,7 +22,7 @@ export class CrawlerController {
   }
 
   @ApiOkResponse({
-    description: 'Scans result',
+    description: 'Getting all Scans result',
     type: ScanResultsDto,
     isArray: true
   })
@@ -33,7 +33,7 @@ export class CrawlerController {
   }
 
   @ApiOkResponse({
-    description: 'Scan result',
+    description: 'Getting scan result',
     type: ScanResultsDto,
   })
   @Get('/scans/:id')
