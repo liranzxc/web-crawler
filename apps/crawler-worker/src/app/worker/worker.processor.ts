@@ -33,11 +33,7 @@ export class CrawlerWorkerConsumer {
     console.log("Start processing job id ",job.data.id)
     try {
       const results = await this.workerService.fetchAssets(job.data.id,job.data.url);
-      await this.workerService.saveResultOnDatabase(job.data.id,results)
-      await this.crawlerRequestEntityRepository.update( {id : job.data.id },
-        { status : ScanRequestStatusEnum.SUCCESS})
-      console.log("Job success ",job.data.id,job.data.url)
-
+      await this.workerService.saveResultOnDatabase(job.data.id,job.data.url,results)
     }
     catch (err)
     {

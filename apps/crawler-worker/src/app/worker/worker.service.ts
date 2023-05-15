@@ -6,11 +6,12 @@ import {EntityManager} from "typeorm";
 import isUrlValidator from 'validator/lib/isURL';
 import {
   LinksEntity,
-  OutgoingUrlsEntity,
+  OutgoingUrlsEntity, ScanRequestEntity,
   ScreenshotsEntity,
   ScriptsEntity,
   StylesheetsEntity
 } from "../../../../../libs/entites";
+import {ScanRequestStatusEnum} from "../../../../../libs/enums";
 
 @Injectable()
 export class WorkerService
@@ -18,6 +19,7 @@ export class WorkerService
   private SAVE_DIR: string = process.env.SAVE_DIR ?? "/tmp";
   constructor(
     @InjectEntityManager()  private em : EntityManager,
+
   ) {}
 
   isURL(value: string) {
@@ -87,7 +89,7 @@ export class WorkerService
     return { links,stylesheets,scripts,outgoingLinks,relativePathScreenshot};
   }
 
-  async saveResultOnDatabase(jobId:string,results: { stylesheets: string[]; links: string[]; outgoingLinks: string[]; scripts: string[]; relativePathScreenshot: string }) {
+  async saveResultOnDatabase(jobId:string,url:string,results: { stylesheets: string[]; links: string[]; outgoingLinks: string[]; scripts: string[]; relativePathScreenshot: string }) {
 
     const linksEntities : LinksEntity[] =  results.links.map( (link) => {
       return {
@@ -130,13 +132,22 @@ export class WorkerService
       await queryRunner.manager.save(ScriptsEntity,scriptsEntities)
       await queryRunner.manager.save(ScreenshotsEntity,screenshotEntity)
 
+      await queryRunner.manager.update( ScanRequestEntity,{id : jobId },
+        { status : ScanRequestStatusEnum.SUCCESS})
+
       await queryRunner.commitTransaction()
+      console.log("Job success ",jobId,url)
+
     }
     catch (err)
     {
       console.log(err);
       await queryRunner.rollbackTransaction()
       console.log("Rolling back");
+
+      // update the status to fail
+      await this.em.update( ScanRequestEntity,{id : jobId },
+        { status : ScanRequestStatusEnum.FAIL})
 
     }
     finally {
