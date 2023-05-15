@@ -39,15 +39,25 @@ export class WorkerService
     const relativePathScreenshot = `${prefixPath}/screenshot.png`
 
     const browser = await puppeteer.launch({headless:"new",
-      // executablePath: '/usr/bin/chromium-browser' , //'/usr/bin/chromium-browser' //
-      args: ['--no-sandbox', '--disable-setuid-sandbox']});
+      executablePath: '/usr/bin/chromium-browser',
+      args: [
+        '--disable-dev-shm-usage',
+        '--disable-setuid-sandbox',
+        '--no-sandbox',
+        '--no-zygote',
+        '--disable-gpu',
+        '--disable-audio-output',
+        '--headless',
+        '--single-process'
+      ]
+    });
+
     const page = await browser.newPage();
     await page.goto(url, {
       waitUntil: 'load',
     });
 
     // get assets
-
     // save screenshot
     await page.screenshot({path: `${relativePathScreenshot}`, fullPage: true});
     console.log("Saving image on " ,relativePathScreenshot);
