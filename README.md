@@ -50,7 +50,7 @@ curl --location 'localhost:3000/crawl' \
 }'
 ```
 
-Get scan results by id 
+Get scan results by id ( wait few seconds for finish processing )
 ```
 curl --location 'localhost:3000/scans/${your scan id}'
 ```
