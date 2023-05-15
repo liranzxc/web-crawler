@@ -66,7 +66,7 @@ curl --location 'localhost:3000/scans/
 
 I have decided to implement a consumer-producer design pattern that is designed to handle scalability and separation between the information retrieval process and the actual scanning process.
 
-By using this pattern, we can easily scale up the workers that consume from a shared queue, utilizing the Bull library with redis (https://www.npmjs.com/package/@nestjs/bull).
+By using this pattern, we can easily scale up the workers that consume from a shared queue, utilizing the Bull library with redis (https://github.com/nestjs/bull).
 
 The API is implemented as an asynchronous API because fetching data may take some time. Meanwhile, we can continue to send more jobs without waiting for the retrieval process to complete.
 
