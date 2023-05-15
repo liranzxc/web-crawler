@@ -5,34 +5,34 @@ import {ApiProperty} from "@nestjs/swagger";
 
 export class ScanResultsDto implements BaseModel
 {
-  @ApiProperty( { type : 'string',description: 'error on fail status' })
+  @ApiProperty( { type : 'string',description: 'Error on fail status' })
   error:string;
 
-  @ApiProperty( { type : 'string',description: 'creation date' })
+  @ApiProperty( { type : 'string',description: 'Creation date' })
   createdAt: Date;
 
   @ApiProperty( { type : 'string',description: 'Id of the scan' })
   id: string;
 
-  @ApiProperty( { type : 'string',description: 'update date' })
+  @ApiProperty( { type : 'string',description: 'Update date' })
   updatedAt: Date;
 
   @ApiProperty( { type : [LinksEntity],description: 'Links' })
   links: LinksEntity[]
 
-  @ApiProperty( { type : [OutgoingUrlsEntity],description: 'outgoing urls' })
+  @ApiProperty( { type : [OutgoingUrlsEntity],description: 'Outgoing urls' })
   outgoingUrls:OutgoingUrlsEntity[]
 
-  @ApiProperty( { type : [ScreenshotsEntity],description: 'screenshots' })
-  screenshots: ScreenshotsEntity[];
+  @ApiProperty( { type : ScreenshotsEntity,description: 'Screenshot of the url page' })
+  screenshot: ScreenshotsEntity;
 
-  @ApiProperty( { type : [ScriptsEntity],description: 'scripts' })
+  @ApiProperty( { type : [ScriptsEntity],description: 'Scripts' })
   scripts: ScriptsEntity[];
 
-  @ApiProperty({ enum: [ScanRequestStatusEnum.SUCCESS, ScanRequestStatusEnum.FAIL, ScanRequestStatusEnum.QUEUED]})
+  @ApiProperty({ enum: [ScanRequestStatusEnum.SUCCESS, ScanRequestStatusEnum.FAIL, ScanRequestStatusEnum.QUEUED],description : "Status of the Scan Job"})
   status: ScanRequestStatusEnum;
 
-  @ApiProperty( { type : [StylesheetsEntity],description: 'stylesheets' })
+  @ApiProperty( { type : [StylesheetsEntity],description: 'Stylesheets' })
   stylesheets: StylesheetsEntity[];
 
   @ApiProperty( { type : 'string',description: 'url of the scan' })

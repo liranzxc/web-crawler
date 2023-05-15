@@ -8,7 +8,7 @@ import {ApiProperty} from "@nestjs/swagger";
 @Entity("Stylesheets")
 export class StylesheetsEntity extends BaseResourceEntity implements LinkBaseModel
 {
-  @ApiProperty( { type : 'string',description: 'link' })
+  @ApiProperty( { type : 'string',description: 'Link of the stylesheet' })
   @Column({type :"text"})
   href: string;
 

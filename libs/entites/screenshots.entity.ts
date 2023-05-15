@@ -8,7 +8,7 @@ import {ApiProperty} from "@nestjs/swagger";
 @Entity("Screenshots")
 export class ScreenshotsEntity extends BaseResourceEntity implements ScreenshotsModel
 {
-  @ApiProperty( { type : 'string',description: 'relative path of the screenshot' })
+  @ApiProperty( { type : 'string',description: 'Relative path of the screenshot' })
   @Column({type :"text"})
   relativePath: string;
 

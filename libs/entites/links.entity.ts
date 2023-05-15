@@ -7,7 +7,7 @@ import {ApiProperty} from "@nestjs/swagger";
 @Entity('Links')
 export class LinksEntity extends BaseResourceEntity implements LinkBaseModel
 {
-  @ApiProperty( { type : 'string',description: 'link' })
+  @ApiProperty( { type : 'string',description: 'Link href' })
   @Column({type :"text"})
   href: string;
 

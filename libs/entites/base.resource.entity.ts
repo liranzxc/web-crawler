@@ -7,11 +7,11 @@ export abstract class BaseResourceEntity implements BaseModel {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @ApiProperty( { type : 'string',description: 'creation date' })
+  @ApiProperty( { type : 'string',description: 'Creation date' })
   @CreateDateColumn()
   createdAt: Date;
 
-  @ApiProperty( { type : 'string',description: 'update date' })
+  @ApiProperty( { type : 'string',description: 'Update date' })
   @UpdateDateColumn()
   updatedAt: Date;
 }

@@ -58,7 +58,7 @@ export class CrawlerService {
 
         const outgoingUrls = await this.em.find(OutgoingUrlsEntity, { where : { scanRequest :  { id : scanId }}});
         const links = await this.em.find(LinksEntity, { where : { scanRequest :  { id : scanId }}});
-        const screenshots = await this.em.find(ScreenshotsEntity, { where : { scanRequest :  { id : scanId }}});
+        const screenshot = await this.em.findOne(ScreenshotsEntity, { where : { scanRequest :  { id : scanId }}});
         const stylesheets = await this.em.find(StylesheetsEntity, { where : { scanRequest :  { id : scanId }}});
         const scripts = await this.em.find(ScriptsEntity, { where : { scanRequest :  { id : scanId }}});
 
@@ -72,7 +72,7 @@ export class CrawlerService {
           updatedAt: scanRequestEntity.updatedAt,
           outgoingUrls: outgoingUrls,
           links: links,
-          screenshots: screenshots,
+          screenshot: screenshot,
           scripts: scripts,
           stylesheets: stylesheets,
         }
