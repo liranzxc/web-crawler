@@ -7,7 +7,8 @@
     "build": "nx build",
     "test": "nx test",
     "build-all": "nx build api-web-crawler --prod && nx build crawler-worker --prod",
-    "boostrap": "docker-compose build && docker-compose up -d "
+    "boostrap": "docker-compose build && docker-compose up -d ",
+    "k" : "nx build api-web-crawler --prod && nx build crawler-worker --prod && docker-compose build &&  docker-compose down && docker-compose up -d"
   },
   "private": true,
   "dependencies": {

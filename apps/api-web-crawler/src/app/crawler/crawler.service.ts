@@ -51,10 +51,10 @@ export class CrawlerService {
 
     if(isUUID(scanId))
     {
-      const crawlerRequestEntity = await this.crawlerRequestEntityRepository.findOne(
+      const scanRequestEntity = await this.crawlerRequestEntityRepository.findOne(
         {where: {id: scanId}})
 
-      if (crawlerRequestEntity) {
+      if (scanRequestEntity) {
 
         const outgoingUrls = await this.em.find(OutgoingUrlsEntity, { where : { scanRequest :  { id : scanId }}});
         const links = await this.em.find(LinksEntity, { where : { scanRequest :  { id : scanId }}});
@@ -64,11 +64,12 @@ export class CrawlerService {
 
         //making sure the dto is defined structure
         const resultsDto: ScanResultsDto = {
-          status: crawlerRequestEntity.status,
-          id: crawlerRequestEntity.id,
-          url: crawlerRequestEntity.url,
-          createdAt: crawlerRequestEntity.createdAt,
-          updatedAt: crawlerRequestEntity.updatedAt,
+          status: scanRequestEntity.status,
+          error : scanRequestEntity.error,
+          id: scanRequestEntity.id,
+          url: scanRequestEntity.url,
+          createdAt: scanRequestEntity.createdAt,
+          updatedAt: scanRequestEntity.updatedAt,
           outgoingUrls: outgoingUrls,
           links: links,
           screenshots: screenshots,

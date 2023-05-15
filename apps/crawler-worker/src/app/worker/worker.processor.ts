@@ -1,4 +1,11 @@
-import {Processor, Process, OnGlobalQueueCompleted,OnGlobalQueueFailed, InjectQueue} from '@nestjs/bull';
+import {
+  Processor,
+  Process,
+  OnGlobalQueueCompleted,
+  OnGlobalQueueFailed,
+  InjectQueue,
+  OnQueueFailed, OnQueueCompleted
+} from '@nestjs/bull';
 import {Job, Queue} from 'bull';
 import {InjectRepository} from "@nestjs/typeorm";
 import {ScanRequestEntity} from "../../../../../libs/entites";
@@ -22,33 +29,23 @@ export class CrawlerWorkerConsumer {
    */
   @Process()
   async process(job: Job<{url: string, id: string}>) {
-    const results = await this.workerService.fetchAssets(job.data.id,job.data.url);
-    await this.workerService.saveResultOnDatabase(job.data.id,results)
 
-    return { ok : 200}
+    console.log("Start processing job id ",job.data.id)
+    try {
+      const results = await this.workerService.fetchAssets(job.data.id,job.data.url);
+      await this.workerService.saveResultOnDatabase(job.data.id,results)
+      await this.crawlerRequestEntityRepository.update( {id : job.data.id },
+        { status : ScanRequestStatusEnum.SUCCESS})
+      console.log("Job success ",job.data.id,job.data.url)
+
+    }
+    catch (err)
+    {
+      console.log(err);
+      await this.crawlerRequestEntityRepository.update( {id : job.data.id },
+        { status : ScanRequestStatusEnum.FAIL , error : err.message.toString() })
+      console.log("Job failed ",job.data.id,job.data.url)
+    }
   }
 
-
-
-  @OnGlobalQueueCompleted()
-  async onGlobalCompleted(jobId: string , result: any) {
-
-    console.log('(Global) on completed: job ', jobId, ' -> result: ', result);
-    const job  = await this.crawlingRequestQueue.getJob(jobId);
-    const scanRequestId = job.data.id;
-
-    await this.crawlerRequestEntityRepository.update( {id : scanRequestId },
-      { status : ScanRequestStatusEnum.SUCCESS})
-
-  }
-
-  @OnGlobalQueueFailed()
-  async OnGlobalQueueFailed(jobId:string , error: Error) {
-    console.log('(Global) on failed: job ', jobId, ' -> error: ', error);
-    const job  = await this.crawlingRequestQueue.getJob(jobId);
-    const scanRequestId = job.data.id;
-
-    await this.crawlerRequestEntityRepository.update( {id : scanRequestId },
-      { status : ScanRequestStatusEnum.FAIL , error : error.message})
-  }
 }

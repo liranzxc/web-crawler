@@ -5,6 +5,9 @@ import {ApiProperty} from "@nestjs/swagger";
 
 export class ScanResultsDto implements BaseModel
 {
+  @ApiProperty( { type : 'string',description: 'error on fail status' })
+  error:string;
+
   @ApiProperty( { type : 'string',description: 'creation date' })
   createdAt: Date;
 

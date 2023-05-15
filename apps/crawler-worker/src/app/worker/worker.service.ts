@@ -48,24 +48,34 @@ export class WorkerService
         '--disable-gpu',
         '--disable-audio-output',
         '--headless',
-        '--single-process'
+        '--single-process',
+        '--ignore-certificate-errors',
+        '--proxy-server="direct://"',
+        '--proxy-bypass-list=*',
       ]
     });
 
+    console.log("go to url :",url);
     const page = await browser.newPage();
+    // setup user agent ,some website must have user agent,if not they will block the request
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36')
     await page.goto(url, {
-      waitUntil: 'load',
+      waitUntil: 'domcontentloaded',
+      timeout: 12000,
     });
+
+    console.log("start fetch information from page");
 
     // get assets
     // save screenshot
     await page.screenshot({path: `${relativePathScreenshot}`, fullPage: true});
-    console.log("Saving image on " ,relativePathScreenshot);
 
+    // get all links by selector <a> tag
     let outgoingLinks :string[]= await page.$$eval('a', outgoingLink => outgoingLink.filter(a => a?.href).map(a => a.href));
     // validation on the urls
     outgoingLinks = outgoingLinks.filter(a => this.isURL(a))
 
+    // get links that are not stylesheet
     const links :string[]= await page.$$eval('link', links => links.filter(a => a.rel !== 'stylesheet' && a?.href).map(a => a.href));
     const stylesheets :string[]= await page.$$eval('link', links => links.filter(a => a.rel === 'stylesheet' && a?.href).map(a => a.href));
     const scripts :string[]= await page.$$eval('script', script => script.filter(script => script?.src).map(script =>  script.src));
