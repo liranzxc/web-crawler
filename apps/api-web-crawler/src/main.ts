@@ -17,7 +17,7 @@ async function bootstrap() {
     .setTitle('Web Crawler API')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('docs', app, document);
 
   await app.listen(port);
   Logger.log(
