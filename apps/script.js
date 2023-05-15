@@ -4,8 +4,16 @@ const puppeteer = require('puppeteer');
   const browser = await puppeteer.launch({
     headless: true,
     args: [
+      '--disable-dev-shm-usage',
+      '--disable-setuid-sandbox',
+      '--no-sandbox',
+      '--no-zygote',
+      '--disable-gpu',
+      '--disable-audio-output',
+      '--headless',
+      '--single-process'
     ],
-    // executablePath: '/usr/bin/google-chrome-stable',
+    executablePath: '/usr/bin/chromium-browser',
   });
   const page = await browser.newPage();
   await page.goto('https://www.google.com');
